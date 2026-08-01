@@ -1,12 +1,12 @@
 /**
  *  @param {CanvasRenderingContext2D} ctx
  *  @param {Object} keys
- *  @param {Object} lander
+ *  @param {Object} spacecraft
  */
 
-export function drawShip(ctx, lander, keys) {
+export function drawShip(ctx, spacecraft, keys) {
   ctx.save();
-  ctx.rotate(lander.angle);
+  ctx.rotate(spacecraft.angle);
 
   ctx.strokeStyle = 'white';
   ctx.lineWidth = 2;
