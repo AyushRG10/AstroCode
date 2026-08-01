@@ -1,4 +1,4 @@
-import { renderSpacecraft } from './render.js';
+import { render } from './render.js';
 import { keys } from './input.js';
 
 
@@ -12,7 +12,7 @@ function resizeCanvas() {
 
 resizeCanvas();
 
-const MAX_SPEED = 1;
+const THRUST = 0.15;
 
 let spacecraft = {
   x: canvas.width / 2,
@@ -25,8 +25,8 @@ let spacecraft = {
 
 function updateSpacecraft() {
   if (keys.ArrowUp) {
-    spacecraft.velX += MAX_SPEED * Math.cos(spacecraft.angle - Math.PI / 2);
-    spacecraft.velY -= MAX_SPEED * Math.sin(spacecraft.angle + Math.PI / 2);
+    spacecraft.velX += THRUST * Math.sin(spacecraft.angle);
+    spacecraft.velY -= THRUST * Math.cos(spacecraft.angle);
   }
   if (keys.ArrowLeft) {
     spacecraft.angle -= 0.1;
@@ -39,9 +39,8 @@ function updateSpacecraft() {
 }
 
 function gameLoop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   updateSpacecraft();
-  renderSpacecraft(ctx, spacecraft);
+  render(ctx, spacecraft, keys);
   requestAnimationFrame(gameLoop);
 }
 

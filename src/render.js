@@ -1,6 +1,11 @@
-export function renderSpacecraft(ctx, spacecraft) {
+/**
+ *  @param {CanvasRenderingContext2D} ctx
+ *  @param {Object} keys
+ *  @param {Object} spacecraft
+ */
+
+function renderSpacecraft(ctx, spacecraft, keys) {
   ctx.save();
-  ctx.translate(spacecraft.x, spacecraft.y);
   ctx.rotate(spacecraft.angle);
 
   ctx.strokeStyle = 'white';
@@ -38,5 +43,35 @@ export function renderSpacecraft(ctx, spacecraft) {
   ctx.lineTo(35, 35);
   ctx.stroke();
 
+  if (keys.ArrowUp) {
+    const flameLength = 25 + Math.random() * 15;
+
+    ctx.fillStyle = '#f97316';
+    ctx.beginPath();
+    ctx.moveTo(-6, 28);
+    ctx.lineTo(0, 28 + flameLength);
+    ctx.lineTo(6, 28);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = '#facc15';
+    ctx.beginPath();
+    ctx.moveTo(-3, 28);
+    ctx.lineTo(0, 28 + (flameLength * 0.6));
+    ctx.lineTo(3, 28);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+export function render(ctx, spacecraft, keys) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.save();
+  ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
+  ctx.rotate(spacecraft.angle);
+  renderSpacecraft(ctx, spacecraft, keys);
   ctx.restore();
 }
