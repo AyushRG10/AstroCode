@@ -1,12 +1,12 @@
 /**
  *  @param {CanvasRenderingContext2D} ctx
  *  @param {Object} keys
- *  @param {Object} spacecraft
+ *  @param {Object} lander
  */
 
-function renderSpacecraft(ctx, spacecraft, keys) {
+export function drawShip(ctx, lander, keys) {
   ctx.save();
-  ctx.rotate(spacecraft.angle);
+  ctx.rotate(lander.angle);
 
   ctx.strokeStyle = 'white';
   ctx.lineWidth = 2;
@@ -63,15 +63,5 @@ function renderSpacecraft(ctx, spacecraft, keys) {
     ctx.fill();
   }
 
-  ctx.restore();
-}
-
-export function render(ctx, spacecraft, keys) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.save();
-  ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
-  ctx.rotate(spacecraft.angle);
-  renderSpacecraft(ctx, spacecraft, keys);
   ctx.restore();
 }
