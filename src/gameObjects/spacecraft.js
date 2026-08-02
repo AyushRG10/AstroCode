@@ -6,7 +6,11 @@ export let spacecraft = {
   angle: 0,
   vx: 0,
   vy: 0,
-  thrust: 0.15,
+  accelX: 0,
+  accelY: 0,
+  // Values based off apolo spacecraft while in transit to the moon
+  thrust: 978600, // newtons
+  mass: 45000 //kg
 };
 
 export function resetSpacecraft() {
@@ -15,15 +19,26 @@ export function resetSpacecraft() {
   spacecraft.angle = 0;
   spacecraft.vx = 0;
   spacecraft.vy = 0;
+  spacecraft.accelX = 0;
+  spacecraft.accelY = 0;
 }
 
 export function updatePhysics() {
+  let inputAccelX = 0;
+  let inputAccelY = 0;
+
   if (keys.ArrowLeft)  spacecraft.angle -= 0.02;
   if (keys.ArrowRight) spacecraft.angle += 0.02;
   if (keys.ArrowUp) {
-    spacecraft.vx -= spacecraft.thrust * Math.cos(spacecraft.angle + Math.PI / 2);
-    spacecraft.vy -= spacecraft.thrust * Math.sin(spacecraft.angle + Math.PI / 2);
+    inputAccelX = spacecraft.thrust * Math.cos(spacecraft.angle + Math.PI / 2) / spacecraft.mass;
+    inputAccelY = spacecraft.thrust * Math.sin(spacecraft.angle + Math.PI / 2) / spacecraft.mass;
   }
+
+  spacecraft.accelX = inputAccelX;
+  spacecraft.accelY = inputAccelY;
+
+  spacecraft.vx += spacecraft.accelX;
+  spacecraft.vy += spacecraft.accelY;
 
   spacecraft.x += spacecraft.vx;
   spacecraft.y += spacecraft.vy;
