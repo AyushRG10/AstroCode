@@ -1,5 +1,5 @@
 import { keys } from "./input.js";
-import { drawShip } from "./render.js";
+import { renderSpacecraft } from "./render.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -57,7 +57,7 @@ function render() {
 
   ctx.save();
   ctx.translate(spacecraft.x, spacecraft.y);
-  drawShip(ctx, spacecraft, keys);
+  renderSpacecraft(ctx, spacecraft, keys);
   ctx.restore();
 
   ctx.restore();
