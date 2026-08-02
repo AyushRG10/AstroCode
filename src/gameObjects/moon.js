@@ -1,8 +1,8 @@
-const moon = {
+export const moon = {
   x: 0,
-  y: -384400000, // 384,400 km distance from earth in meters
-  radius: 1737000, // 1,737 km radius in meters
-  mass: 7.34767309e22, // 7.34767309 x 10^22 kg
+  y: -38440000, // 384,400 km distance from earth in meters
+  radius: 173700, // 1,737 km radius in meters
+  mass: 7.34767309e20, // 7.34767309 x 10^22 kg
 };
 
 export function renderMoon(ctx) {
@@ -24,8 +24,8 @@ export function moonGravity(spacecraft) {
   const force = (G * moon.mass * spacecraft.mass) / (distance ** 2);
   const angle = Math.atan2(moon.y - spacecraft.y, moon.x - spacecraft.x);
   const acceleration = {
-    x: force * Math.cos(angle) / spacecraft.mass,
-    y: force * Math.sin(angle) / spacecraft.mass
+    x: force * Math.cos(angle),
+    y: force * Math.sin(angle)
   };
   return acceleration;
 }

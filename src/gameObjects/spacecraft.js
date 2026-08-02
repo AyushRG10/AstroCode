@@ -1,10 +1,10 @@
 import { keys } from "../input.js";
-import { moonGravity } from "./moon.js";
-import { earthGravity } from "./earth.js";
+import { moonGravity, moon } from "./moon.js";
+import { earthGravity, earth } from "./earth.js";
 
 export let spacecraft = {
   x: 0,
-  y: -384400000 + 6372000,
+  y: (earth.y + moon.y) / 2,
   angle: 0,
   vx: 0,
   vy: 0,
@@ -12,12 +12,12 @@ export let spacecraft = {
   accelY: 0,
   // Values based off apolo spacecraft while in transit to the moon
   thrust: 97860, // newtons
-  mass: 45000 //kg
+  mass: 450 //kg
 };
 
 export function resetSpacecraft() {
   spacecraft.x = 0;
-  spacecraft.y = -384400000 + 6372000;
+  spacecraft.y = (earth.y + moon.y) / 2;
   spacecraft.angle = 0;
   spacecraft.vx = 0;
   spacecraft.vy = 0;
