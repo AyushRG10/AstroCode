@@ -88,6 +88,7 @@ let accumulator = 0;
 
 const TICKS_PER_SECOND = 60;
 const TIME_STEP = 1000 / TICKS_PER_SECOND; // ~16.67 ms per update
+const dt = 1 / TICKS_PER_SECOND;
 
 function gameLoop(currentTime) {
   let frameTime = currentTime - lastTime;
@@ -100,7 +101,7 @@ function gameLoop(currentTime) {
   accumulator += frameTime;
 
   while (accumulator >= TIME_STEP) {
-    updatePhysics();
+    updatePhysics(dt);
     accumulator -= TIME_STEP;
   }
 

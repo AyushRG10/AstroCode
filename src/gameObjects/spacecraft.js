@@ -11,7 +11,7 @@ export let spacecraft = {
   accelX: 0,
   accelY: 0,
   // Values based off apolo spacecraft while in transit to the moon
-  thrust: 978600, // newtons
+  thrust: 97860, // newtons
   mass: 45000 //kg
 };
 
@@ -25,7 +25,7 @@ export function resetSpacecraft() {
   spacecraft.accelY = 0;
 }
 
-export function updatePhysics() {
+export function updatePhysics(dt) {
   let inputAccelX = 0;
   let inputAccelY = 0;
 
@@ -42,11 +42,11 @@ export function updatePhysics() {
   spacecraft.accelX = inputAccelX + moonAccel.x + earthAccel.x;
   spacecraft.accelY = inputAccelY + moonAccel.y + earthAccel.y;
 
-  spacecraft.vx += spacecraft.accelX;
-  spacecraft.vy += spacecraft.accelY;
+  spacecraft.vx += spacecraft.accelX * dt;
+  spacecraft.vy += spacecraft.accelY * dt;
 
-  spacecraft.x += spacecraft.vx;
-  spacecraft.y += spacecraft.vy;
+  spacecraft.x += spacecraft.vx * dt;
+  spacecraft.y += spacecraft.vy * dt;
 }
 
 /**

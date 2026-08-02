@@ -23,8 +23,8 @@ export function earthGravity(spacecraft) {
   const force = G * (earth.mass * spacecraft.mass) / (distance ** 2);
   const angle = Math.atan2(earth.y - spacecraft.y, earth.x - spacecraft.x);
   const acceleration = {
-    x: force * Math.cos(angle),
-    y: force * Math.sin(angle),
+    x: force * Math.cos(angle) / spacecraft.mass,
+    y: force * Math.sin(angle) / spacecraft.mass,
   };
   return acceleration;
 }
