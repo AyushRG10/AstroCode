@@ -1,4 +1,5 @@
 import { keys } from "../input.js";
+import { moonGravity } from "./moon.js";
 
 export let spacecraft = {
   x: 0,
@@ -34,8 +35,10 @@ export function updatePhysics() {
     inputAccelY = -spacecraft.thrust * Math.cos(spacecraft.angle) / spacecraft.mass;
   }
 
-  spacecraft.accelX = inputAccelX;
-  spacecraft.accelY = inputAccelY;
+  const moonAccel = moonGravity(spacecraft);
+
+  spacecraft.accelX = inputAccelX + moonAccel.x;
+  spacecraft.accelY = inputAccelY + moonAccel.y;
 
   spacecraft.vx += spacecraft.accelX;
   spacecraft.vy += spacecraft.accelY;
