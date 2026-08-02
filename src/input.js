@@ -10,11 +10,11 @@ window.addEventListener("keydown", (e) => {
     e.preventDefault();
     keys[e.key] = true;
   }
-})
+});
 
 window.addEventListener("keyup", (e) => {
   if (e.key in keys) {
     e.preventDefault();
     keys[e.key] = false;
   }
-})
+});

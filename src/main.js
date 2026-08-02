@@ -1,5 +1,5 @@
 import { keys } from "./input.js";
-import { renderSpacecraft } from "./render.js";
+import { spacecraft, updatePhysics, resetSpacecraft, renderSpacecraft } from "./gameObjects/spacecraft.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -12,18 +12,10 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-let spacecraft;
 let gameState = 'PLAYING'; //playing, landed, crashed
 
 function resetGame() {
-  spacecraft = {
-    x: 0,
-    y: 0,
-    angle: 0,
-    vx: 0,
-    vy: 0,
-    thrust: 0.15,
-  };
+  resetSpacecraft();
   gameState = 'PLAYING';
 }
 
@@ -35,20 +27,6 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-function updatePhysics() {
-  if (gameState !== 'PLAYING') return;
-
-  if (keys.ArrowLeft)  spacecraft.angle -= 0.02;
-  if (keys.ArrowRight) spacecraft.angle += 0.02;
-  if (keys.ArrowUp) {
-    spacecraft.vx -= spacecraft.thrust * Math.cos(spacecraft.angle + Math.PI / 2);
-    spacecraft.vy -= spacecraft.thrust * Math.sin(spacecraft.angle + Math.PI / 2);
-  }
-
-  spacecraft.x += spacecraft.vx;
-  spacecraft.y += spacecraft.vy;
-}
-
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -57,7 +35,7 @@ function render() {
 
   ctx.save();
   ctx.translate(spacecraft.x, spacecraft.y);
-  renderSpacecraft(ctx, spacecraft, keys);
+  renderSpacecraft(ctx, keys);
   ctx.restore();
 
   ctx.restore();
