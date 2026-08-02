@@ -1,6 +1,7 @@
 import { keys } from "./input.js";
 import { spacecraft, updatePhysics, resetSpacecraft, renderSpacecraft } from "./gameObjects/spacecraft.js";
-import { renderMoon } from "./gameObjects/moon.js";
+import { renderMoon, moonCollision } from "./gameObjects/moon.js";
+import { renderEarth, earthCollision } from "./gameObjects/earth.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -34,6 +35,7 @@ function render() {
   ctx.save();
   ctx.translate(canvas.width / 2 - spacecraft.x, canvas.height / 2 - spacecraft.y);
   renderMoon(ctx);
+  renderEarth(ctx);
 
   ctx.save();
   ctx.translate(spacecraft.x, spacecraft.y);
@@ -91,23 +93,29 @@ const TIME_STEP = 1000 / TICKS_PER_SECOND; // ~16.67 ms per update
 const dt = 1 / TICKS_PER_SECOND;
 
 function gameLoop(currentTime) {
-  let frameTime = currentTime - lastTime;
-  lastTime = currentTime;
+  if (gameState === 'PLAYING') {
+    let frameTime = currentTime - lastTime;
+    lastTime = currentTime;
 
-  if (frameTime > 250) {
-    frameTime = 250;
+    if (frameTime > 250) {
+      frameTime = 250;
+    }
+
+    accumulator += frameTime;
+
+    while (accumulator >= TIME_STEP) {
+      updatePhysics(dt);
+      accumulator -= TIME_STEP;
+    }
+
+    render();
+
+    requestAnimationFrame(gameLoop);
   }
-
-  accumulator += frameTime;
-
-  while (accumulator >= TIME_STEP) {
-    updatePhysics(dt);
-    accumulator -= TIME_STEP;
+  if (earthCollision(spacecraft) || moonCollision(spacecraft)) {
+    gameState = 'CRASHED';
+    console.log("true");
   }
-
-  render();
-
-  requestAnimationFrame(gameLoop);
 }
 
 // FIX 2: Start the game loop

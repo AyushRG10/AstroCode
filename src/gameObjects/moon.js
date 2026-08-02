@@ -29,3 +29,8 @@ export function moonGravity(spacecraft) {
   };
   return acceleration;
 }
+
+export function moonCollision(spacecraft) {
+  const distanceSquared = (moon.x - spacecraft.x) ** 2 + (moon.y - spacecraft.y) ** 2;
+  return distanceSquared <= (moon.radius + spacecraft.radius) ** 2;
+}

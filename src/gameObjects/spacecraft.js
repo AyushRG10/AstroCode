@@ -3,8 +3,9 @@ import { moonGravity, moon } from "./moon.js";
 import { earthGravity, earth } from "./earth.js";
 
 export let spacecraft = {
+  // Basic Information
   x: 0,
-  y: (earth.y + moon.y) / 2,
+  y: earth.y - earth.radius - 2000,
   angle: 0,
   vx: 0,
   vy: 0,
@@ -14,13 +15,16 @@ export let spacecraft = {
   // Values based off apolo spacecraft while in transit to the moon
   thrust: 97860, // newtons
   mass: 450, //kg
+  //Side Thruster Values required for rotation calc
   sideThursterTorque: 40, // newtons
   inertia: 120000,
+  // Spacecraft Design Specifications
+  radius: 90
 };
 
 export function resetSpacecraft() {
   spacecraft.x = 0;
-  spacecraft.y = (earth.y + moon.y) / 2;
+  spacecraft.y = earth.y - earth.radius - 2000;
   spacecraft.angle = 0;
   spacecraft.vx = 0;
   spacecraft.vy = 0;
