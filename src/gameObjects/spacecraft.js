@@ -30,8 +30,8 @@ export function updatePhysics() {
   if (keys.ArrowLeft)  spacecraft.angle -= 0.02;
   if (keys.ArrowRight) spacecraft.angle += 0.02;
   if (keys.ArrowUp) {
-    inputAccelX = spacecraft.thrust * Math.cos(spacecraft.angle + Math.PI / 2) / spacecraft.mass;
-    inputAccelY = spacecraft.thrust * Math.sin(spacecraft.angle + Math.PI / 2) / spacecraft.mass;
+    inputAccelX = spacecraft.thrust * Math.sin(spacecraft.angle) / spacecraft.mass;
+    inputAccelY = -spacecraft.thrust * Math.cos(spacecraft.angle) / spacecraft.mass;
   }
 
   spacecraft.accelX = inputAccelX;

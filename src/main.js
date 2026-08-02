@@ -1,5 +1,6 @@
 import { keys } from "./input.js";
 import { spacecraft, updatePhysics, resetSpacecraft, renderSpacecraft } from "./gameObjects/spacecraft.js";
+import { renderMoon } from "./gameObjects/moon.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -32,6 +33,7 @@ function render() {
 
   ctx.save();
   ctx.translate(canvas.width / 2 - spacecraft.x, canvas.height / 2 - spacecraft.y);
+  renderMoon(ctx);
 
   ctx.save();
   ctx.translate(spacecraft.x, spacecraft.y);
@@ -48,7 +50,8 @@ function drawUI() {
   const dy = spacecraft.y;
   const distance = Math.hypot(dx, dy);
 
-  const altitude = Math.max(0, distance).toFixed(1);
+  const x = spacecraft.x;
+  const y = spacecraft.y;
   const totalSpeed = Math.hypot(spacecraft.vx, spacecraft.vy);
   const normalizedAngle = Math.atan2(Math.sin(spacecraft.angle), Math.cos(spacecraft.angle));
   const pitchDegrees = (normalizedAngle * (180 / Math.PI)).toFixed(1);
@@ -68,15 +71,16 @@ function drawUI() {
 
   ctx.font = '14px monospace';
   ctx.fillStyle = '#94a3b8';
-  ctx.fillText(`ALTITUDE ${altitude} m`, 25, 50);
-  ctx.fillText(`LAT VEL: ${spacecraft.vx.toFixed(2)} m/s`, 25, 78);
-  ctx.fillText(`VERT VEL: ${spacecraft.vy.toFixed(2)} m/s`, 25, 98);
+  ctx.fillText(`X ${x.toFixed(1)} m`, 25, 50);
+  ctx.fillText(`Y ${y.toFixed(1)} m`, 25, 68);
+  ctx.fillText(`LAT VEL: ${spacecraft.vx.toFixed(2)} m/s`, 25, 88);
+  ctx.fillText(`VERT VEL: ${spacecraft.vy.toFixed(2)} m/s`, 25, 108);
 
   ctx.fillStyle = '#4ade80';
-  ctx.fillText(`SPEED: ${totalSpeed.toFixed(2)} m/s`, 25, 118);
+  ctx.fillText(`SPEED: ${totalSpeed.toFixed(2)} m/s`, 25, 128);
 
   ctx.fillStyle = '#f87171';
-  ctx.fillText(`PITCH: ${pitchDegrees}°`, 25, 138);
+  ctx.fillText(`PITCH: ${pitchDegrees}°`, 25, 148);
 }
 
 let lastTime = performance.now();
