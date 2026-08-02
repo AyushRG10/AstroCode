@@ -10,9 +10,12 @@ export let spacecraft = {
   vy: 0,
   accelX: 0,
   accelY: 0,
+  angularVelocity: 0,
   // Values based off apolo spacecraft while in transit to the moon
   thrust: 97860, // newtons
-  mass: 450 //kg
+  mass: 450, //kg
+  sideThursterTorque: 40, // newtons
+  inertia: 120000,
 };
 
 export function resetSpacecraft() {
@@ -23,24 +26,32 @@ export function resetSpacecraft() {
   spacecraft.vy = 0;
   spacecraft.accelX = 0;
   spacecraft.accelY = 0;
+  spacecraft.angularVelocity = 0;
 }
 
 export function updatePhysics(dt) {
-  let inputAccelX = 0;
-  let inputAccelY = 0;
+  let forwardAccelX = 0;
+  let forwardAccelY = 0;
+  let angularAccel = 0;
 
-  if (keys.ArrowLeft)  spacecraft.angle -= 0.02;
-  if (keys.ArrowRight) spacecraft.angle += 0.02;
+  if (keys.ArrowLeft) {
+    angularAccel -= spacecraft.sideThursterTorque / spacecraft.inertia;
+  }
+  if (keys.ArrowRight) {
+    angularAccel += spacecraft.sideThursterTorque / spacecraft.inertia;
+  }
+  spacecraft.angularVelocity += angularAccel / dt;
+  spacecraft.angle += spacecraft.angularVelocity * dt;
   if (keys.ArrowUp) {
-    inputAccelX = spacecraft.thrust * Math.sin(spacecraft.angle) / spacecraft.mass;
-    inputAccelY = -spacecraft.thrust * Math.cos(spacecraft.angle) / spacecraft.mass;
+    forwardAccelX = spacecraft.thrust * Math.sin(spacecraft.angle) / spacecraft.mass;
+    forwardAccelY = -spacecraft.thrust * Math.cos(spacecraft.angle) / spacecraft.mass;
   }
 
   const moonAccel = moonGravity(spacecraft);
   const earthAccel = earthGravity(spacecraft);
 
-  spacecraft.accelX = inputAccelX + moonAccel.x + earthAccel.x;
-  spacecraft.accelY = inputAccelY + moonAccel.y + earthAccel.y;
+  spacecraft.accelX = forwardAccelX + moonAccel.x + earthAccel.x;
+  spacecraft.accelY = forwardAccelY + moonAccel.y + earthAccel.y;
 
   spacecraft.vx += spacecraft.accelX * dt;
   spacecraft.vy += spacecraft.accelY * dt;
@@ -134,6 +145,51 @@ export function renderSpacecraft(ctx, keys) {
     ctx.moveTo(-15, 85);
     ctx.lineTo(0, 70 + flameHeight);
     ctx.lineTo(15, 85);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+  }
+  // Side Thrusters
+  // Left
+  ctx.fillStyle = 'grey';
+  ctx.beginPath();
+  ctx.moveTo(-20, -50);
+  ctx.lineTo(-30, -50);
+  ctx.lineTo(-40, -20);
+  ctx.lineTo(-30, -11);
+  ctx.lineTo(-20, -30);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  if (keys.ArrowRight) {
+    ctx.fillStyle = 'yellow';
+    const flameHeight = Math.random() * 5 + 10;
+    ctx.beginPath();
+    ctx.moveTo(-40, -20);
+    ctx.lineTo(-35, -20 + flameHeight);
+    ctx.lineTo(-30, -11);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+  }
+  // Right
+  ctx.fillStyle = 'grey';
+  ctx.beginPath();
+  ctx.moveTo(20, -50);
+  ctx.lineTo(30, -50);
+  ctx.lineTo(40, -20);
+  ctx.lineTo(30, -11);
+  ctx.lineTo(20, -30);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  if (keys.ArrowLeft) {
+    ctx.fillStyle = 'yellow';
+    const flameHeight = Math.random() * 5 + 10;
+    ctx.beginPath();
+    ctx.moveTo(40, -20);
+    ctx.lineTo(35, -20 + flameHeight);
+    ctx.lineTo(30, -11);
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
