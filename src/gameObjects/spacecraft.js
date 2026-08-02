@@ -1,9 +1,10 @@
 import { keys } from "../input.js";
 import { moonGravity } from "./moon.js";
+import { earthGravity } from "./earth.js";
 
 export let spacecraft = {
   x: 0,
-  y: 0,
+  y: -384400000 + 6372000,
   angle: 0,
   vx: 0,
   vy: 0,
@@ -16,7 +17,7 @@ export let spacecraft = {
 
 export function resetSpacecraft() {
   spacecraft.x = 0;
-  spacecraft.y = 0;
+  spacecraft.y = -384400000 + 6372000;
   spacecraft.angle = 0;
   spacecraft.vx = 0;
   spacecraft.vy = 0;
@@ -36,9 +37,10 @@ export function updatePhysics() {
   }
 
   const moonAccel = moonGravity(spacecraft);
+  const earthAccel = earthGravity(spacecraft);
 
-  spacecraft.accelX = inputAccelX + moonAccel.x;
-  spacecraft.accelY = inputAccelY + moonAccel.y;
+  spacecraft.accelX = inputAccelX + moonAccel.x + earthAccel.x;
+  spacecraft.accelY = inputAccelY + moonAccel.y + earthAccel.y;
 
   spacecraft.vx += spacecraft.accelX;
   spacecraft.vy += spacecraft.accelY;
