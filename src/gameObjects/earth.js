@@ -30,7 +30,6 @@ export function earthGravity(spacecraft) {
 }
 
 export function earthCollision(spacecraft) {
-  console.log("running");
   const distanceSquared = (earth.x - spacecraft.x) ** 2 + (earth.y - spacecraft.y) ** 2;
   return distanceSquared <= (earth.radius + spacecraft.radius) ** 2;
 }

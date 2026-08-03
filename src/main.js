@@ -114,7 +114,6 @@ function gameLoop(currentTime) {
   }
   if (earthCollision(spacecraft) || moonCollision(spacecraft)) {
     gameState = 'CRASHED';
-    console.log("true");
   }
 }
 
