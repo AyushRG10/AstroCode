@@ -20,7 +20,7 @@ export function renderEarth(ctx) {
 export function earthGravity(spacecraft) {
   const G = 6.67430e-11; // gravitational constant
   const distance = Math.sqrt((earth.x - spacecraft.x) ** 2 + (earth.y - spacecraft.y) ** 2);
-  const force = G * (earth.mass * spacecraft.mass) / (distance ** 2);
+  const force = G * (earth.mass) / (distance ** 2);
   const angle = Math.atan2(earth.y - spacecraft.y, earth.x - spacecraft.x);
   const acceleration = {
     x: force * Math.cos(angle),

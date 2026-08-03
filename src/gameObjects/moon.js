@@ -21,7 +21,7 @@ export function renderMoon(ctx) {
 export function moonGravity(spacecraft) {
   const G = 6.67430e-11; // Gravitational constant in m^3 kg^-1 s^-2
   const distance = Math.sqrt((moon.x - spacecraft.x) ** 2 + (moon.y - spacecraft.y) ** 2);
-  const force = (G * moon.mass * spacecraft.mass) / (distance ** 2);
+  const force = (G * moon.mass) / (distance ** 2);
   const angle = Math.atan2(moon.y - spacecraft.y, moon.x - spacecraft.x);
   const acceleration = {
     x: force * Math.cos(angle),
