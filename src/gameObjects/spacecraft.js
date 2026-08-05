@@ -14,7 +14,7 @@ export let spacecraft = {
   angularVelocity: 0,
   // Values based off apolo spacecraft while in transit to the moon
   thrust: 97860, // newtons
-  mass: 450, //kg
+  mass: 450, //kg. For now use 450 but then use 45000 after implemented saturn v rocket
   //Side Thruster Values required for rotation calc
   sideThursterTorque: 40, // newtons
   inertia: 120000,
