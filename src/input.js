@@ -15,7 +15,6 @@ window.addEventListener("keydown", (e) => {
   if (e.key == 'r') {
     e.preventDefault();
     gameReset = true;
-    console.log('key press');
   }
 });
 
@@ -27,7 +26,6 @@ window.addEventListener("keyup", (e) => {
   if (e.key == 'r') {
     e.preventDefault();
     //gameReset = false;
-    console.log("key lift");
     gameReset = false;
   }
 });

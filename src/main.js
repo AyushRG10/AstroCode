@@ -1,7 +1,7 @@
 import { keys, gameReset } from "./input.js";
 import { spacecraft, updatePhysics, resetSpacecraft, renderSpacecraft } from "./gameObjects/spacecraft.js";
 import { renderMoon, moonCollision } from "./gameObjects/moon.js";
-import { renderEarth, earthCollision } from "./gameObjects/earth.js";
+import { renderEarth, earthCollision, landingCollision } from "./gameObjects/earth.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -99,7 +99,7 @@ function gameStateHandler() {
   }
   if (gameState != 'PLAYING') {
     ctx.fillStyle = 'white';
-    ctx.fillText("Please click R or Space to try again!", canvas.width / 2, 50);
+    ctx.fillText("Please click R to try again!", canvas.width / 2, 50);
     if (gameReset) {
       gameState = 'PLAYING';
       gameReset = false;
@@ -107,7 +107,6 @@ function gameStateHandler() {
     }
   }
   ctx.restore();
-  console.log(gameReset)
 }
 
 let lastTime = performance.now();
@@ -139,6 +138,8 @@ function gameLoop(currentTime) {
     gameState = 'CRASHED';
   }
   gameStateHandler();
+  const landingResult = landingCollision(spacecraft).landed;
+  console.log(landingResult);
   requestAnimationFrame(gameLoop);
 }
 
